@@ -151,146 +151,339 @@ endmodule
 
 //Multiply
 //Notes for continuation: Need to implement half/full adders I believe so that we can add these numbers dawg. 16 numbers at the most?
-module Multiply(input1,input2,product);
+module Mult(inputA, inputB, product);
+    input [15:0] inputA;
+    input [15:0] inputB;
+    output [31:0] product;
 
-input [15:0]input1;
-input [15:0]input2;
-output[31:0]product;
-wire m0,m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15;
-wire n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15;
-wire d0,d1,d2_1,d2_2,d2_3,d3_1,d3_2,d3_3,d3_4,d4_1,d4_2,d4_3,d4_4,d5_1,d5_2,d5_3,d5_4,d5_5,d6_1,d6_2,d6_3,d6_4,d6_5,d6_6,
-d7_1,d7_2,d7_3,d7_4,d7_5,d7_6,d7_7,d8_1,d8_2,d8_3,d8_4,d8_5,d8_6,d8_7,d8_8,d9_1,d9_2,d9_3,d9_4,d9_5,d9_6,d9_7,d9_8,d9_9,
-d10_1,d10_2,d10_3,d10_4,d10_5,d10_6,d10_7,d10_8,d10_9,d10_10,d11_1,d11_2,d11_3,d11_4,d11_5,d11_6,d11_7,d11_8,d11_9,d11_10,d11_11,
-d12_1,d12_2,d12_3,d12_4,d12_5,d12_6,d12_7,d12_8,d12_9,d12_10,d12_11,d12_12,d13_1,d13_2,d13_3,d13_4,d13_5,d13_6,d13_7,d13_8,d13_9,d13_10,d13_11,d13_12,d13_13,
-d14_1,d14_2,d14_3,d14_4,d14_5,d14_6,d14_7,d14_8,d14_9,d14_10,d14_11,d14_12,d14_13,d14_14,
-d15_1,d15_2,d15_3,d15_4,d15_5,d15_6,d15_7,d15_8,d15_9,d15_10,d15_11,d15_12,d15_13,d15_14,d15_15,
-d16_1,d16_2,d16_3,d16_4,d16_5,d16_6,d16_7,d16_8,d16_9,d16_10,d16_11,d16_12,d16_13,d16_14,d16_15,d16_16,
-d17_1,d17_2,d17_3,d17_4,d17_5,d17_6,d17_7,d17_8,d17_9,d17_10,d17_11,d17_12,d17_13,d17_14,d17_15,d17_16,d17_17,
-d18_1,d18_2,d18_3,d18_4,d18_5,d18_6,d18_7,d18_8,d18_9,d18_10,d18_11,d18_12,d18_13,d18_14,d18_15,d18_16,d18_17,d18_18,
-d19_1,d19_2,d19_3,d19_4,d19_5,d19_6,d19_7,d19_8,d19_9,d19_10,d19_11,d19_12,d19_13,d19_14,d19_15,d19_16,d19_17,d19_18,d19_19,
-d20_1,d20_2,d20_3,d20_4,d20_5,d20_6,d20_7,d20_8,d20_9,d20_10,d20_11,d20_12,d20_13,d20_14,d20_15,d20_16,d20_17,d20_18,d20_19,d20_20,
-d21_1,d21_2,d21_3,d21_4,d21_5,d21_6,d21_7,d21_8,d21_9,d21_10,d21_11,d21_12,d21_13,d21_14,d21_15,d21_16,d21_17,d21_18,d21_19,d21_20,d21_21,
-d22_1,d22_2,d22_3,d22_4,d22_5,d22_6,d22_7,d22_8,d22_9,d22_10,d22_11,d22_12,d22_13,d22_14,d22_15,d22_16,d22_17,d22_18,d22_19,d22_20,d22_21,d22_22,
-d23_1,d23_2,d23_3,d23_4,d23_5,d23_6,d23_7,d23_8,d23_9,d23_10,d23_11,d23_12,d23_13,d23_14,d23_15,d23_16,d23_17,d23_18,d23_19,d23_20,d23_21,d23_22,d23_23,
-d24_1,d24_2,d24_3,d24_4,d24_5,d24_6,d24_7,d24_8,d24_9,d24_10,d24_11,d24_12,d24_13,d24_14,d24_15,d24_16,d24_17,d24_18,d24_19,d24_20,d24_21,d24_22,d24_23,d24_24,
-d25_1,d25_2,d25_3,d25_4,d25_5,d25_6,d25_7,d25_8,d25_9,d25_10,d25_11,d25_12,d25_13,d25_14,d25_15,d25_16,d25_17,d25_18,d25_19,d25_20,d25_21,d25_22,d25_23,d25_24,d25_25,
-d26_1,d26_2,d26_3,d26_4,d26_5,d26_6,d26_7,d26_8,d26_9,d26_10,d26_11,d26_12,d26_13,d26_14,d26_15,d26_16,d26_17,d26_18,d26_19,d26_20,d26_21,d26_22,d26_23,d26_24,d26_25,d26_26,
-d27_1,d27_2,d27_3,d27_4,d27_5,d27_6,d27_7,d27_8,d27_9,d27_10,d27_11,d27_12,d27_13,d27_14,d27_15,d27_16,d27_17,d27_18,d27_19,d27_20,d27_21,d27_22,d27_23,d27_24,d27_25,d27_26,d27_27,
-d28_1,d28_2,d28_3,d28_4,d28_5,d28_6,d28_7,d28_8,d28_9,d28_10,d28_11,d28_12,d28_13,d28_14,d28_15,d28_16,d28_17,d28_18,d28_19,d28_20,d28_21,d28_22,d28_23,d28_24,d28_25,d28_26,d28_27,d28_28,
-d29_1,d29_2,d29_3,d29_4,d29_5,d29_6,d29_7,d29_8,d29_9,d29_10,d29_11,d29_12,d29_13,d29_14,d29_15,d29_16,d29_17,d29_18,d29_19,d29_20,d29_21,d29_22,d29_23,d29_24,d29_25,d29_26,d29_27,d29_28,d29_29,
-d30_1,d30_2,d30_3,d30_4,d30_5,d30_6,d30_7,d30_8,d30_9,d30_10,d30_11,d30_12,d30_13,d30_14,d30_15,d30_16,d30_17,d30_18,d30_19,d30_20,d30_21,d30_22,d30_23,d30_24,d30_25,d30_26,d30_27,d30_28,d30_29,d30_30,
-d31_1,d31_2,d31_3,d31_4,d31_5,d31_6,d31_7,d31_8,d31_9,d31_10,d31_11,d31_12,d31_13,d31_14,d31_15,d31_16,d31_17,d31_18,d31_19,d31_20,d31_21,d31_22,d31_23,d31_24,d31_25,d31_26,d31_27,d31_28,d31_29,d31_30,d31_31;
+    wire [15:0] p0;
+    wire [15:0] p1;
+    wire [15:0] p2;
+    wire [15:0] p3;
+    wire [15:0] p4;
+    wire [15:0] p5;
+    wire [15:0] p6;
+    wire [15:0] p7;
+    wire [15:0] p8;
+    wire [15:0] p9;
+    wire [15:0] p10;
+    wire [15:0] p11;
+    wire [15:0] p12;
+    wire [15:0] p13;
+    wire [15:0] p14;
+    wire [15:0] p15;
 
-wire p2,p2_1,p3_1,p3_2,p3_3,p4_1,p4_2,p4_3,p5_1,p5_2,p5_3,p5_4,p6_1,p6_2,p6_3,p6_4,p6_5,p7_1,p7_2,p7_3,p7_4,p7_5,p7_6,
-p8_1,p8_2,p8_3,p8_4,p8_5,p8_6,p8_7,p9_1,p9_2,p9_3,p9_4,p9_5,p9_6,p9_7,p9_8,p10_1,p10_2,p10_3,p10_4,p10_5,p10_6,p10_7,p10_8,p10_9,
-p11_1,p11_2,p11_3,p11_4,p11_5,p11_6,p11_7,p11_8,p11_9,p11_10,p12_1,p12_2,p12_3,p12_4,p12_5,p12_6,p12_7,p12_8,p12_9,p12_10,p12_11,
-p13_1,p13_2,p13_3,p13_4,p13_5,p13_6,p13_7,p13_8,p13_9,p13_10,p13_11,p13_12,p14_1,p14_2,p14_3,p14_4,p14_5,p14_6,p14_7,p14_8,p14_9,p14_10,p14_11,p14_12,p14_13,
-p15_1,p15_2,p15_3,p15_4,p15_5,p15_6,p15_7,p15_8,p15_9,p15_10,p15_11,p15_12,p15_13,p15_14,
-p16_1,p16_2,p16_3,p16_4,p16_5,p16_6,p16_7,p16_8,p16_9,p16_10,p16_11,p16_12,p16_13,p16_14,p16_15,
-p17_1,p17_2,p17_3,p17_4,p17_5,p17_6,p17_7,p17_8,p17_9,p17_10,p17_11,p17_12,p17_13,p17_14,p17_15,p17_16,
-p18_1,p18_2,p18_3,p18_4,p18_5,p18_6,p18_7,p18_8,p18_9,p18_10,p18_11,p18_12,p18_13,p18_14,p18_15,p18_16,p18_17,
-p19_1,p19_2,p19_3,p19_4,p19_5,p19_6,p19_7,p19_8,p19_9,p19_10,p19_11,p19_12,p19_13,p19_14,p19_15,p19_16,p19_17,p19_18,
-p20_1,p20_2,p20_3,p20_4,p20_5,p20_6,p20_7,p20_8,p20_9,p20_10,p20_11,p20_12,p20_13,p20_14,p20_15,p20_16,p20_17,p20_18,p20_19,
-p21_1,p21_2,p21_3,p21_4,p21_5,p21_6,p21_7,p21_8,p21_9,p21_10,p21_11,p21_12,p21_13,p21_14,p21_15,p21_16,p21_17,p21_18,p21_19,p21_20,
-p22_1,p22_2,p22_3,p22_4,p22_5,p22_6,p22_7,p22_8,p22_9,p22_10,p22_11,p22_12,p22_13,p22_14,p22_15,p22_16,p22_17,p22_18,p22_19,p22_20,p22_21,
-p23_1,p23_2,p23_3,p23_4,p23_5,p23_6,p23_7,p23_8,p23_9,p23_10,p23_11,p23_12,p23_13,p23_14,p23_15,p23_16,p23_17,p23_18,p23_19,p23_20,p23_21,p23_22,
-p24_1,p24_2,p24_3,p24_4,p24_5,p24_6,p24_7,p24_8,p24_9,p24_10,p24_11,p24_12,p24_13,p24_14,p24_15,p24_16,p24_17,p24_18,p24_19,p24_20,p24_21,p24_22,p24_23,
-p25_1,p25_2,p25_3,p25_4,p25_5,p25_6,p25_7,p25_8,p25_9,p25_10,p25_11,p25_12,p25_13,p25_14,p25_15,p25_16,p25_17,p25_18,p25_19,p25_20,p25_21,p25_22,p25_23,p25_24,
-p26_1,p26_2,p26_3,p26_4,p26_5,p26_6,p26_7,p26_8,p26_9,p26_10,p26_11,p26_12,p26_13,p26_14,p26_15,p26_16,p26_17,p26_18,p26_19,p26_20,p26_21,p26_22,p26_23,p26_24,p26_25,
-p27_1,p27_2,p27_3,p27_4,p27_5,p27_6,p27_7,p27_8,p27_9,p27_10,p27_11,p27_12,p27_13,p27_14,p27_15,p27_16,p27_17,p27_18,p27_19,p27_20,p27_21,p27_22,p27_23,p27_24,p27_25,p27_26,
-p28_1,p28_2,p28_3,p28_4,p28_5,p28_6,p28_7,p28_8,p28_9,p28_10,p28_11,p28_12,p28_13,p28_14,p28_15,p28_16,p28_17,p28_18,p28_19,p28_20,p28_21,p28_22,p28_23,p28_24,p28_25,p28_26,p28_27,
-p29_1,p29_2,p29_3,p29_4,p29_5,p29_6,p29_7,p29_8,p29_9,p29_10,p29_11,p29_12,p29_13,p29_14,p29_15,p29_16,p29_17,p29_18,p29_19,p29_20,p29_21,p29_22,p29_23,p29_24,p29_25,p29_26,p29_27,p29_28,
-p30_1,p30_2,p30_3,p30_4,p30_5,p30_6,p30_7,p30_8,p30_9,p30_10,p30_11,p30_12,p30_13,p30_14,p30_15,p30_16,p30_17,p30_18,p30_19,p30_20,p30_21,p30_22,p30_23,p30_24,p30_25,p30_26,p30_27,p30_28,p30_29,
-p31_1,p31_2,p31_3,p31_4,p31_5,p31_6,p31_7,p31_8,p31_9,p31_10,p31_11,p31_12,p31_13,p31_14,p31_15,p31_16,p31_17,p31_18,p31_19,p31_20,p31_21,p31_22,p31_23,p31_24,p31_25,p31_26,p31_27,p31_28,p31_29,p31_30;
+    assign p0[15:0] = {16{inputA[0]}} & inputB[15:0];
+    assign p1[15:0] = {16{inputA[1]}} & inputB[15:0];
+    assign p2[15:0] = {16{inputA[2]}} & inputB[15:0];
+    assign p3[15:0] = {16{inputA[3]}} & inputB[15:0];
+    assign p4[15:0] = {16{inputA[4]}} & inputB[15:0];
+    assign p5[15:0] = {16{inputA[5]}} & inputB[15:0];
+    assign p6[15:0] = {16{inputA[6]}} & inputB[15:0];
+    assign p7[15:0] = {16{inputA[7]}} & inputB[15:0];
+    assign p8[15:0] = {16{inputA[8]}} & inputB[15:0];
+    assign p9[15:0] = {16{inputA[9]}} & inputB[15:0];
+    assign p10[15:0] = {16{inputA[10]}} & inputB[15:0];
+    assign p11[15:0] = {16{inputA[11]}} & inputB[15:0];
+    assign p12[15:0] = {16{inputA[12]}} & inputB[15:0];
+    assign p13[15:0] = {16{inputA[13]}} & inputB[15:0];
+    assign p14[15:0] = {16{inputA[14]}} & inputB[15:0];
+    assign p15[15:0] = {16{inputA[15]}} & inputB[15:0];
 
 
-assign m0 = input1[0];
-assign m1 = input1[1];
-assign m2 = input1[2];
-assign m3 = input1[3];
-assign m4 = input1[4];
-assign m5 = input1[5];
-assign m6 = input1[6];
-assign m7 = input1[7];
-assign m8 = input1[8];
-assign m9 = input1[9];
-assign m10 = input1[10];
-assign m11 = input1[11];
-assign m12 = input1[12];
-assign m13 = input1[13];
-assign m14 = input1[14];
-assign m15 = input1[15];
+    wire [31:0] P;
+    wire d0,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20,d21,d22,d23,d24,d25,d26,d27,d28,d29,d30,d31,d32,d33,d34,d35,d36,d37,d38,d39,d40,d41,d42,d43,d44,d45,d46,d47,d48,d49,d50,d51,d52,d53,d54,d55,d56,d57,d58,d59,d60,
+    d61,d62,d63,d64,d65,d66,d67,d68,d69,d70,d71,d72,d73,d74,d75,d76,d77,d78,d79,d80,d81,d82,d83,d84,d85,d86,d87,d88,d89,d90,d91,d92,d93,d94,d95,d96,d97,d98,d99,d100,d101,d102,d103,d104,d105,d106,d107,d108,d109,d110,d111,d112,d113,d114,d115,d116,d117,d118,d119,d120,
+	d121,d122,d123,d124,d125,d126,d127,d128,d129,d130,d131,d132,d133,d134,d135,d136,d137,d138,d139,d140,d141,d142,d143,d144,d145,d1146,d147,d148,d149,d150,d151,d152,d153,d154,d155,d156,d157,d158,d159,d160,d161,d162,d163,d164,d165,d166,d167,d168,d169,d170,
 
-assign n0 = input2[0];
-assign n1 = input2[1];
-assign n2 = input2[2];
-assign n3 = input2[3];
-assign n4 = input2[4];
-assign n5 = input2[5];
-assign n6 = input2[6];
-assign n7 = input2[7];
-assign n8 = input2[8];
-assign n9 = input2[9];
-assign n10 = input2[10];
-assign n11 = input2[11];
-assign n12 = input2[12];
-assign n13 = input2[13];
-assign n14 = input2[14];
-assign n15 = input2[15];
+    wire c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28,c29,c30,c31,c32,c33,c34,c35,c36,c37,c38,c39,c40,c41,c42,c43,c44,c45,c46,c47,c48,c49,c50,c51,c52,c53,c54,c55,c56,c57,c58,c59,c60,
+    c61,c62,c63,c64,c65,c66,c67,c68,c69,c70,c71,c72,c73,c74,c75,c76,c77,c78,c79,c80,c81,c82,c83,c84,c85,c86,c87,c88,c89,c90,c91,c92,c93,c94,c95,c96,c97,c98,c99,c100,c101,c102,c103,c104,c105,c106,c107,c108,c109,c110,c111,c112,c113,c114,c115,c116,c117,c118,c119,c120,
+    c121,c122,c123,c124,c125,c126,c127,c128,c129,c130,c131,c132,c133,c134,c135,c136,c137,c138,c139,c140,c141,c142,c143,c144,c145,c146,c147,c148,c149,c150,c151,c152,c153,c154,c155,c156,c157,c158,c159,c160,c161,c162,c163,c164,c165,c166,c167,c168,c169,c170,
+	c171,c172,c173,c174,c175,c176,c177,c178,c179,c180,c181,c182,c183,c184,c185,c186,c187,c188,c189,c190,c191,c192,c193,c194,c195,c196,c197,c198,c199,c200,c201,c202,c203,c204,c205,c206,c207,c208,c209,c210,c211,c212,c213,c214,c215,c216,c217,c218,c219,c220,
+	c221,c222,c223,c224,c225,c226,c227,c228,c229,c230,c231,c232,c233,c234,c235,c236,c237,c238,c239,c240;//,c241,c242,c243,c244,c245,c246,c247,c248,c249,c250;
+
+    assign P[0] = p0[0];
+
+    FullAdder FA1_1(p0[1],p1[0],1'b0,c0,P[1]);
+
+    FullAdder FA2_1(p0[2],p1[1],p2[0],c1,d0); // sum = 1
+    FullAdder FA2_2(c0,d0,1'b0,c2,P[2]);
+
+    FullAdder FA3_1(p0[3],p1[2],p2[1],c3,d1);
+    FullAdder FA3_2(d1,p3[0],c1,c4,d2);
+    FullAdder FA3_3(d2,c2,1'b0,c5,P[3]);
+
+    FullAdder FA4_1(p0[4],p1[3],p2[2],c6,d3);
+    FullAdder FA4_2(d3,p3[1],p4[0],c7,d4);
+    FullAdder FA4_3(d4,c3,c4,c8,d5);
+    FullAdder FA4_4(d5,c5,1'b0,c9,P[4]);
+
+    FullAdder FA5_1(p0[5],p1[4],p2[3],c10,d6);
+    FullAdder FA5_2(d6,p3[2],p4[1],c11,d7);
+    FullAdder FA5_3(d7,p5[0],c6,c12,d8);
+    FullAdder FA5_4(d8,c7,c8,c13,d9);
+    FullAdder FA5_5(d9,c9,1'b0,c14,P[5]);
+
+    FullAdder FA6_1(p0[6],p1[5],p2[4],c15,d10);
+    FullAdder FA6_2(d10,p3[3],p4[2],c16,d11);
+    FullAdder FA6_3(d11,p5[1],p6[0],c17,d12);
+    FullAdder FA6_4(d12,c10,c11,c18,d13);
+    FullAdder FA6_5(d13,c12,c13,c19,d14);
+    FullAdder FA6_6(d14,c14,1'b0,c20,P[6]);
+
+    FullAdder FA7_1(p0[7],p1[6],p2[5],c21,d15);
+    FullAdder FA7_2(d15,p3[4],p4[3],c22,d16);
+    FullAdder FA7_3(d16,p5[2],p6[1],c23,d17);
+    FullAdder FA7_4(d17,p7[0],c15,c24,d18);
+    FullAdder FA7_5(d18,c16,c17,c25,d19);
+    FullAdder FA7_6(d19,c18,c19,c26,d20);
+    FullAdder FA7_7(d20,c20,1'b0,c27,P[7]);
+
+    FullAdder FA8_1(p0[8],p1[7],p2[6],c28,d21);
+    FullAdder FA8_2(d21,p3[5],p4[4],c29,d22);
+    FullAdder FA8_3(d22,p5[3],p6[2],c30,d23);
+    FullAdder FA8_4(d23,p7[1],p8[0],c31,d24);
+    FullAdder FA8_5(d24,c21,c22,c32,d25);
+    FullAdder FA8_6(d25,c23,c24,c33,d26);
+    FullAdder FA8_7(d26,c25,c26,c34,d27);
+    FullAdder FA8_8(d27,c27,1'b0,c35,P[8]);
+
+    FullAdder FA9_1(p0[9],p1[8],p2[7],c36,d28);
+    FullAdder FA9_2(d28,p3[6],p4[5],c37,d29);
+    FullAdder FA9_3(d29,p5[4],p6[3],c38,d30);
+    FullAdder FA9_4(d30,p7[2],p8[1],c39,d31);
+    FullAdder FA9_5(d31,p9[0],c28,c40,d32);
+    FullAdder FA9_6(d32,c29,c30,c41,d33);
+    FullAdder FA9_7(d33,c31,c32,c42,d34);
+    FullAdder FA9_8(d34,c33,c34,c43,d35);
+    FullAdder FA9_9(d35,c35,1'b0,c44,P[9]); 
+
+    FullAdder FA10_1(p0[10],p1[9],p2[8],c45,d36);
+    FullAdder FA10_2(d36,p3[7],p4[6],c46,d37);
+    FullAdder FA10_3(d37,p5[5],p6[4],c47,d38);
+    FullAdder FA10_4(d38,p7[3],p8[2],c48,d39);
+    FullAdder FA10_5(d39,p9[1],p10[0],c49,d40);
+    FullAdder FA10_6(d40,c36,c37,c50,d41);
+    FullAdder FA10_7(d41,c38,c39,c51,d42);
+    FullAdder FA10_8(d42,c40,c41,c52,d43);
+    FullAdder FA10_9(d43,c42,c43,c53,d44);
+    FullAdder FA10_10(d44,c44,1'b0,c54,P[10]);
+
+    FullAdder FA11_1(p0[11],p1[10],p2[9],c55,d45);
+    FullAdder FA11_2(d45,p3[8],p4[7],c56,d46);
+    FullAdder FA11_3(d46,p5[6],p6[5],c57,d47);
+    FullAdder FA11_4(d47,p7[4],p8[3],c58,d48);
+    FullAdder FA11_5(d48,p9[2],p10[1],c59,d49);
+    FullAdder FA11_6(d49,p11[0],c45,c60,d50);
+    FullAdder FA11_7(d50,c46,c47,c61,d51);
+    FullAdder FA11_8(d51,c48,c49,c62,d52);
+    FullAdder FA11_9(d52,c50,c51,c63,d53);
+    FullAdder FA11_10(d53,c52,c53,c64,d54);
+    FullAdder FA11_11(d54,c54,1'b0,c65,P[11]);
+
+    FullAdder FA12_1(p0[12],p1[11],p2[10],c66,d55);
+    FullAdder FA12_2(d55,p3[9],p4[8],c67,d56);
+    FullAdder FA12_3(d56,p5[7],p6[6],c68,d57);
+    FullAdder FA12_4(d57,p7[5],p8[4],c69,d58);
+    FullAdder FA12_5(d58,p9[3],p10[2],c70,d59);
+    FullAdder FA12_6(d59,p11[1],p12[0],c71,d60);
+    FullAdder FA12_7(d60,c55,c56,c72,d61);
+    FullAdder FA12_8(d61,c57,c58,c73,d62);
+    FullAdder FA12_9(d62,c59,c60,c74,d63);
+    FullAdder FA12_10(d63,c61,c62,c75,d64);
+    FullAdder FA12_11(d64,c63,c64,c76,d65);
+    FullAdder FA12_12(d65,c65,1'b0,c77,P[12]);
+
+    FullAdder FA13_1(p0[13],p1[12],p2[11],c78,d66);
+    FullAdder FA13_2(d66,p3[10],p4[9],c79,d67);
+    FullAdder FA13_3(d67,p5[8],p6[7],c80,d68);
+    FullAdder FA13_4(d68,p7[6],p8[5],c81,d69);
+    FullAdder FA13_5(d69,p9[4],p10[3],c82,d70);
+    FullAdder FA13_6(d70,p11[2],p12[1],c83,d71);
+    FullAdder FA13_7(d71,p13[0],c66,c84,d72);
+    FullAdder FA13_8(d72,c67,c68,c85,d73);
+    FullAdder FA13_9(d73,c69,c70,c86,d74);
+    FullAdder FA13_10(d74,c71,c72,c87,d75);
+    FullAdder FA13_11(d75,c73,c74,c88,d76);
+    FullAdder FA13_12(d76,c75,c76,c89,d77);
+    FullAdder FA13_13(d77,c77,1'b0,c90,P[13]);
+
+    FullAdder FA14_1(p0[14],p1[13],p2[12],c91,d78);
+    FullAdder FA14_2(d78,p3[11],p4[10],c92,d79);
+    FullAdder FA14_3(d79,p5[9],p6[8],c93,d80);
+    FullAdder FA14_4(d80,p7[7],p8[6],c94,d81);
+    FullAdder FA14_5(d81,p9[5],p10[4],c95,d82);
+    FullAdder FA14_6(d82,p11[3],p12[2],c96,d83);
+    FullAdder FA14_7(d83,p13[1],p14[0],c97,d84);
+    FullAdder FA14_8(d84,c78,c79,c98,d85);
+    FullAdder FA14_9(d85,c80,c81,c99,d86);
+    FullAdder FA14_10(d86,c82,c83,c100,d87);
+    FullAdder FA14_11(d87,c84,c85,c101,d88);
+    FullAdder FA14_12(d88,c86,c87,c102,d89);
+    FullAdder FA14_13(d89,c88,c89,c103,d90);
+    FullAdder FA14_14(d90,c90,1'b0,c104,P[14]);
+
+    FullAdder FA15_1(p0[15],p1[14],p2[13],c106,d91);
+    FullAdder FA15_2(d91,p3[12],p4[11],c107,d92);
+    FullAdder FA15_3(d92,p5[10],p6[9],c108,d93);
+    FullAdder FA15_4(d93,p7[8],p8[7],c109,d94);
+    FullAdder FA15_5(d94,p9[6],p10[5],c110,d95);
+    FullAdder FA15_6(d95,p11[4],p12[3],c111,d96);
+    FullAdder FA15_7(d96,p13[2],p14[1],c112,d97);
+    FullAdder FA15_8(d97,p15[0],c91,c113,d98);
+    FullAdder FA15_9(d98,c92,c93,c114,d99);
+    FullAdder FA15_10(d99,c94,c95,c115,d100);
+    FullAdder FA15_11(d100,c96,c97,c116,d101);
+    FullAdder FA15_12(d101,c98,c99,c117,d102);
+    FullAdder FA15_13(d102,c100,c101,c118,d103);
+    FullAdder FA15_14(d103,c102,c103,c119,d104);
+    FullAdder FA15_15(d104,c104,1'b0,c120,P[15]);
+
+	FullAdder FA16_1(p1[15],p2[14],p3[13],c121,d105);
+	FullAdder FA16_2(d105,p4[12],p5[11],c122,d106);
+	FullAdder FA16_3(d106,p6[10],p7[9],c123,d107);
+	FullAdder FA16_4(d107,p8[8],p9[7],c124,d108);
+	FullAdder FA16_5(d108,p10[6],p11[5],c125,d109);
+	FullAdder FA16_6(d109,p12[4],p13[3],c126,d110);
+	FullAdder FA16_7(d110,p14[2],p15[1],c127,d111);
+	FullAdder FA16_8(d111,c106,c107,c128,d112);
+	FullAdder FA16_9(d112,c108,c109,c129,d113);
+	FullAdder FA16_10(d113,c110,c111,c130,d114);
+	FullAdder FA16_11(d114,c112,c113,c131,d115);
+	FullAdder FA16_12(d115,c114,c115,c132,d116);
+	FullAdder FA16_13(d116,c116,c117,c133,d117);
+	FullAdder FA16_14(d117,c118,c119,c134,d118);
+	FullAdder FA16_15(d118,c120,1'b0,c135,P[16]);
+
+	FullAdder FA17_1(p2[15],p3[14],p4[13],c136,d119);
+	FullAdder FA17_2(d119,p5[12],p6[11],c137,d120);
+	FullAdder FA17_3(d120,p7[10],p8[9],c138,d121);
+	FullAdder FA17_4(d121,p9[8],p10[7],c139,d122);
+	FullAdder FA17_5(d122,p11[6],p12[5],c140,d123);
+	FullAdder FA17_6(d123,p13[4],p14[3],c141,d124);
+	FullAdder FA17_7(d124,p15[2],c121,c142,d125);
+	FullAdder FA17_8(d125,c123,c124,c143,d126);
+	FullAdder FA17_9(d126,c125,c126,c144,d127);
+	FullAdder FA17_10(d127,c127,c128,c145,d128);
+	FullAdder FA17_11(d128,c129,c130,c146,d129);
+	FullAdder FA17_12(d129,c131,c132,c147,d130);
+	FullAdder FA17_13(d130,c133,c134,c148,d131);
+	FullAdder FA17_14(d131,c135,1'b0,c149,P[17]);
+
+	FullAdder FA18_1(p3[15],p4[14],p5[13],c150,d132);
+	FullAdder FA18_2(d132,p6[12],p7[11],c151,d133);
+	FullAdder FA18_3(d133,p8[10],p9[9],c152,d134);
+	FullAdder FA18_4(d134,p10[8],p11[7],c153,d135);
+	FullAdder FA18_5(d135,p12[6],p13[5],c154,d136);
+	FullAdder FA18_6(d136,p14[4],p15[3],c155,d137);
+	FullAdder FA18_7(d137,c136,c137,c156,d138);
+	FullAdder FA18_8(d138,c138,c139,c157,d139);
+	FullAdder FA18_9(d139,c140,c141,c158,d140);
+	FullAdder FA18_10(d140,c142,c143,c159,d141);
+	FullAdder FA18_11(d141,c144,c145,c160,d142);
+	FullAdder FA18_12(d142,c146,c147,c161,d143);
+	FullAdder FA18_13(d143,c148,c149,c162,P[18]);
+
+	FullAdder FA19_1(p4[15],p5[14],p6[13],c163,d144);
+	FullAdder FA19_2(d144,p7[12],p8[11],c164,d145);
+	FullAdder FA19_3(d145,p9[10],p10[9],c165,d146);
+	FullAdder FA19_4(d146,p11[8],p12[7],c166,d147);
+	FullAdder FA19_5(d147,p13[6],p14[5],c167,d148);
+	FullAdder FA19_6(d148,p15[4],c150,c168,d149);
+	FullAdder FA19_7(d149,c151,c152,c169,d150);
+	FullAdder FA19_8(d150,c153,c154,c170,d151);
+	FullAdder FA19_9(d151,c155,c156,c171,d152);
+	FullAdder FA19_10(d152,c157,c158,c172,d153);
+	FullAdder FA19_11(d153,c159,c160,c173,d154);
+	FullAdder FA19_12(d154,c161,c162,c174,P[19]);
+
+	FullAdder FA20_1(p5[15],p6[14],p7[13],c175,d155);
+	FullAdder FA20_2(d155,p8[12],p9[11],c176,d156);
+	FullAdder FA20_3(d156,p10[10],p11[9],c177,d157);
+	FullAdder FA20_4(d157,p12[8],p13[7],c178,d158);
+	FullAdder FA20_5(d158,p14[6],p15[5],c179,d159);
+	FullAdder FA20_6(d159,c163,c164,c180,d160);
+	FullAdder FA20_7(d160,c165,c166,c181,d161);
+	FullAdder FA20_8(d161,c167,c168,c182,d162);
+	FullAdder FA20_9(d162,c169,c170,c183,d163);
+	FullAdder FA20_10(d163,c171,c172,c184,d164);
+	FullAdder FA20_11(d164,c173,c174,c185,P[20]);
+
+	FullAdder FA21_1(p6[15],p7[14],p8[13],c186,d165);
+	FullAdder FA21_2(d165,p9[12],p10[11],c187,d166);
+	FullAdder FA21_3(d166,p11[10],p12[9],c188,d167);
+	FullAdder FA21_4(d167,p13[8],p14[7],c189,d168);
+	FullAdder FA21_5(d168,p15[6],c175,c190,d169);
+	FullAdder FA21_6(d169,c176,c177,c191,d170);
+	FullAdder FA21_7(d170,c178,c179,c192,d171);
+	FullAdder FA21_8(d171,c180,c181,c193,d172);
+	FullAdder FA21_9(d172,c182,c183,c194,d173);
+	FullAdder FA21_10(d173,c184,c185,c195,P[21]);
+
+	FullAdder FA22_1(p7[15],p8[14],p9[13],c196,d174);
+	FullAdder FA22_2(d174,p10[12],p11[11],c197,d175);
+	FullAdder FA22_3(d175,p12[10],p13[9],c198,d176);
+	FullAdder FA22_4(d176,p14[8],p15[7],c199,d177);
+	FullAdder FA22_5(d177,c186,c187,c200,d178);
+	FullAdder FA22_6(d178,c188,c189,c201,d179);
+	FullAdder FA22_7(d179,c190,c191,c202,d180);
+	FullAdder FA22_8(d180,c192,c193,c203,d181);
+	FullAdder FA22_9(d181,c194,c195,c204,P[22]);
+
+	FullAdder FA23_1(p8[15],p9[14],p10[13],c205,d182);
+	FullAdder FA23_2(d182,p11[12],p12[11],c206,d183);
+	FullAdder FA23_3(d183,p13[10],p14[9],c207,d184);
+	FullAdder FA23_4(d184,p15[8],c196,c208,d185);
+	FullAdder FA23_5(d185,c197,c198,c209,d186);
+	FullAdder FA23_6(d186,c199,c200,c210,d187);
+	FullAdder FA23_7(d187,c201,c202,c211,d188);
+	FullAdder FA23_8(d188,c203,c204,c212,P[23]);
+
+	FullAdder FA24_1(p9[15],p10[14],p11[13],c213,d189);
+	FullAdder FA24_2(d189,p12[12],p13[11],c214,d190);
+	FullAdder FA24_3(d190,p14[10],p15[9],c215,d191);
+	FullAdder FA24_4(d191,c205,c206,c216,d192);
+	FullAdder FA24_5(d192,c207,c208,c217,d193);
+	FullAdder FA24_6(d193,c209,c210,c218,d194);
+	FullAdder FA24_7(d194,c211,c212,c219,P[24]);
+
+	FullAdder FA25_1(p10[15],p11[14],p12[13],c220,d195);
+	FullAdder FA25_2(d195,p13[12],p14[11],c221,d196);
+	FullAdder FA25_3(d196,p15[10],c213,c222,d197);
+	FullAdder FA25_4(d197,c214,c215,c223,d198);
+	FullAdder FA25_5(d198,c216,c217,c224,d199);
+	FullAdder FA25_6(d199,c218,c219,c225,P[25]);
+
+	FullAdder FA26_1(p11[15],p12[14],p13[13],c226,d200);
+	FullAdder FA26_2(d200,p14[12],p15[11],c227,d201);
+	FullAdder FA26_3(d201,c220,c221,c228,d202);
+	FullAdder FA26_4(d202,c222,c223,c229,d203);
+	FullAdder FA26_5(d203,c224,c225,c230,P[26]);
+
+	FullAdder FA27_1(p12[15],p13[14],p14[13],c231,d204);
+	FullAdder FA27_2(d204,p15[12],c226,c232,d205);
+	FullAdder FA27_3(d205,c227,c228,c233,d206);
+	FullAdder FA27_4(d206,c229,c230,c234,P[27]);
+
+	FullAdder FA28_1(p13[15],p14[14],p15[13],c235,d207);
+	FullAdder FA28_2(d207,c231,c232,c236,d208);
+	FullAdder FA28_3(d208,c233,c234,c237,P[28]);
+
+	FullAdder FA29_1(p14[15],p15[14],c235,c238,d209);
+	FullAdder FA29_2(d209,c236,c237,c239,P[29]);
+
+	FullAdder FA30_1(p15[15],c238,c239,c240,P[30]);
+
+	assign P[31] = c240;
 
 
-assign product[0] = m0 & n0;
-
-FullAdder GA1((m0 & n1),(m1 & n0),1'b0,d1,product[1]);
-
-HalfAdder GA2_1((m0 & n2),(m1 & n1),d2_1,p2);
-FullAdder GA2_2(p2,(m2 & n0),d1,d2_2,product[2]);
-HalfAdder GA2_Carry(d2_1,d2_2,d2_3,p2_1);
-//FullAdder GA2_1((m0 & n2),(m1 & n1),d1,d2_1,p2);
-
-HalfAdder GA3_1((m0 & n3),(m1 & n2),d3_1,p3_1);
-HalfAdder GA3_2((m2 & n1),(m3 & n0),d3_2,p3_2);
-FullAdder GA3_3(p2_1,p3_1,p3_2,d3_3,product[3]);
-FullAdder GA3_Carry(d3_1,d3_2,d3_3,d3_4,p3_3);
-//FullAdder GA3_1((m0 & n3),(m1 & n2),d2_2,d3_1,p3_1);
-//FullAdder GA3_2(p3_1,(m2 & n1),d3_1,d3_2,p3_2);
-//FullAdder GA3_3(p3_2,(m3 & n0),d3_2,d3_3,product[3]);
-
-HalfAdder GA4_1((m0 & n4),(m1 & n3),d4_1,p4_1);
-HalfAdder GA4_2((m2 & n2),(m3 & n1),d4_2,p4_2);
-FullAdder GA4_3((m4 & n0),d2_3,p2_1,d4_3,p4_3);
-FullAdder GA4_4(p4_1,p4_2,p4_3,d4_4,product[4]);
 
 
-/*
-FullAdder GA4_1((m0 & n4),(m1 & n3),d3_3,d4_1,p4_1);
-FullAdder GA4_2(p4_1,(m2 & n2),d4_1,d4_2,p4_2);
-FullAdder GA4_3(p4_2,(m3 & n1),d4_2,d4_3,p4_3);
-FullAdder GA4_4(p4_3,(m4 & n0),d4_3,d4_4,product[4]);
-
-FullAdder GA5_1((m0 & n5),(m1 & n4),d4_4,d5_1,p5_1);
-FullAdder GA5_2(p5_1,(m2 & n3),d5_1,d5_2,p5_2);
-FullAdder GA5_3(p5_2,(m3 & n2),d5_2,d5_3,p5_3);
-FullAdder GA5_4(p5_3,(m4 & n1),d5_3,d5_4,p5_4);
-FullAdder GA5_5(p5_4,(m5 & n0),d5_4,d5_5,product[5]);
-
-FullAdder GA6_1((m0 & n6),(m1 & n5),d5_5,d6_1,p6_1);
-FullAdder GA6_2(p6_1,(m2 & n4),d6_1,d6_2,p6_2);
-FullAdder GA6_3(p6_2,(m3 & n3),d6_2,d6_3,p6_3);
-FullAdder GA6_4(p6_3,(m4 & n2),d6_3,d6_4,p6_4);
-FullAdder GA6_5(p6_4,(m5 & n1),d6_4,d6_5,p6_5);
-FullAdder GA6_6(p6_5,(m6 & n0),d6_5,d6_6,product[6]);
-
-FullAdder GA7_1((m0 & n7),(m1 & n6),d6_6,d7_1,p7_1);
-FullAdder GA7_2(p7_1,(m2 & n5),d7_1,d7_2,p7_2);
-FullAdder GA7_3(p7_2,(m3 & n4),d7_2,d7_3,p7_3);
-FullAdder GA7_4(p7_3,(m4 & n3),d7_3,d7_4,p7_4);
-FullAdder GA7_5(p7_4,(m5 & n2),d7_4,d7_5,p7_5);
-FullAdder GA7_6(p7_5,(m5 & n1),d7_5,d7_6,p7_6);
-FullAdder GA7_7(p7_6,(m6 & n0),d7_6,d7_7,product[7]);
-*/
 
 
+
+
+    assign product[31:0] = P[31:0];
 
 
 endmodule
@@ -478,8 +671,8 @@ module TestBench();
   BreadBoard BB8(input1,input2,opcode,result,error);
   
   initial begin
-    assign input1  = 16'b0000000000000111;
-	assign input2  = 16'b0000000000000111;
+    assign input1  = 16'b0100000000000000;
+	assign input2  = 16'b0000000000000010;
 	//Answer =    		10101100010001010
 	
 	
