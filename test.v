@@ -113,37 +113,37 @@ module AddSub(inputA,inputB,mode,sum,carry,overflow);
 	assign a31 = 1'b0;
 
     FullAdder FA0(inputA[0],	b0,		mode,c1,sum[0]);
-    FullAdder FA1(inputA[1],	b1,  	c1,c2,sum[1]);
-    FullAdder FA2(inputA[2],	b2,  	c2,c3,sum[2]);
-    FullAdder FA3(inputA[3],	b3,  	c3,c4,sum[3]);
-    FullAdder FA4(inputA[4],	b4,  	c4,c5,sum[4]);
-    FullAdder FA5(inputA[5],	b5,  	c5,c6,sum[5]);
-    FullAdder FA6(inputA[6],	b6,  	c6,c7,sum[6]);
-    FullAdder FA7(inputA[7],	b7,  	c7,c8,sum[7]);
-    FullAdder FA8(inputA[8],	b8,  	c8,c9,sum[8]);
-    FullAdder FA9(inputA[9],	b9,  	c9,c10,sum[9]);
+    FullAdder FA1(inputA[1],	b1,  	c1,c2,	sum[1]);
+    FullAdder FA2(inputA[2],	b2,  	c2,c3,	sum[2]);
+    FullAdder FA3(inputA[3],	b3,  	c3,c4,	sum[3]);
+    FullAdder FA4(inputA[4],	b4,  	c4,c5,	sum[4]);
+    FullAdder FA5(inputA[5],	b5,  	c5,c6,	sum[5]);
+    FullAdder FA6(inputA[6],	b6,  	c6,c7,	sum[6]);
+    FullAdder FA7(inputA[7],	b7,  	c7,c8,	sum[7]);
+    FullAdder FA8(inputA[8],	b8,  	c8,c9,	sum[8]);
+    FullAdder FA9(inputA[9],	b9,  	c9,c10,	sum[9]);
     FullAdder FA10(inputA[10],	b10,  	c10,c11,sum[10]);
     FullAdder FA11(inputA[11],	b11,  	c11,c12,sum[11]);
     FullAdder FA12(inputA[12],	b12, 	c12,c13,sum[12]);
     FullAdder FA13(inputA[13],	b13,  	c13,c14,sum[13]);
     FullAdder FA14(inputA[14],	b14, 	c14,c15,sum[14]);
     FullAdder FA15(inputA[15],	b15, 	c15,c16,sum[15]);
-	FullAdder FA16(a16,		b16, 		c16,c17,sum[16]);
-	FullAdder FA17(a17,		b17, 		c17,c18,sum[17]);
-	FullAdder FA18(a18,		b18, 		c18,c19,sum[18]);
-	FullAdder FA19(a19,		b19,  	c19,c20,sum[19]);
-	FullAdder FA20(a20,		b20,  	c20,c21,sum[20]);
-	FullAdder FA21(a21,		b21,  	c21,c22,sum[21]);
-	FullAdder FA22(a22,		b22,  	c22,c23,sum[22]);
-	FullAdder FA23(a23,		b23,  	c23,c24,sum[23]);
-	FullAdder FA24(a24,		b24,  	c24,c25,sum[24]);
-	FullAdder FA25(a25,		b25,  	c25,c26,sum[25]);
-	FullAdder FA26(a26,		b26,  	c26,c27,sum[26]);
-	FullAdder FA27(a27,		b27,  	c27,c28,sum[27]);
-	FullAdder FA28(a28,		b28,  	c28,c29,sum[28]);
-	FullAdder FA29(a29,		b29,  	c29,c30,sum[29]);
-	FullAdder FA30(a30,		b30,  	c30,c31,sum[30]);
-	FullAdder FA31(a31,		b31,  	c31,c32,sum[31]);
+	FullAdder FA16(a16,			b16, 	c16,c17,sum[16]);
+	FullAdder FA17(a17,			b17, 	c17,c18,sum[17]);
+	FullAdder FA18(a18,			b18, 	c18,c19,sum[18]);
+	FullAdder FA19(a19,			b19,  	c19,c20,sum[19]);
+	FullAdder FA20(a20,			b20,  	c20,c21,sum[20]);
+	FullAdder FA21(a21,			b21,  	c21,c22,sum[21]);
+	FullAdder FA22(a22,			b22,  	c22,c23,sum[22]);
+	FullAdder FA23(a23,			b23,  	c23,c24,sum[23]);
+	FullAdder FA24(a24,			b24,  	c24,c25,sum[24]);
+	FullAdder FA25(a25,			b25,  	c25,c26,sum[25]);
+	FullAdder FA26(a26,			b26,  	c26,c27,sum[26]);
+	FullAdder FA27(a27,			b27,  	c27,c28,sum[27]);
+	FullAdder FA28(a28,			b28,  	c28,c29,sum[28]);
+	FullAdder FA29(a29,			b29,  	c29,c30,sum[29]);
+	FullAdder FA30(a30,			b30,  	c30,c31,sum[30]);
+	FullAdder FA31(a31,			b31,  	c31,c32,sum[31]);
 
     assign carry=c32;
     assign overflow=c32^c31;
@@ -153,7 +153,7 @@ endmodule
 
 //========================================================================================
 //Multiply
-module Mult(inputA, inputB, product);
+module Multiply(inputA, inputB, product);
     input [15:0] inputA;
     input [15:0] inputB;
     output [31:0] product;
@@ -480,10 +480,11 @@ module Mult(inputA, inputB, product);
 
     assign product[31:0] = P[31:0];
 
-
 endmodule
+
 //========================================================================================
 
+//========================================================================================
 //Division
 module Division(inputA,inputB,quotient,divBy0);
 
@@ -498,6 +499,7 @@ module Division(inputA,inputB,quotient,divBy0);
         begin
             if(inputB == 0) begin
                 assign divBy0 = 1;
+				quotient = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             end
             else begin
 				assign divBy0 = 0;
@@ -523,6 +525,7 @@ module Modulo(inputA,inputB,remainder,modBy0);
           begin
               if(inputB == 0) begin
                   assign modBy0 = 1;
+				  remainder = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
               end
 			  else begin
 				  assign modBy0 = 0;
@@ -675,46 +678,88 @@ module TestBench();
   BreadBoard BB8(input1,input2,opcode,result,error);
   
   initial begin
-    assign input1  = 16'b1111111111111111;
-	assign input2  = 16'b1111111111111111;
-	//Answer =    		10101100010001010
+
+	$display("------------------------------------------------------------------------------------------------------------------------------");
+	$display();
+
+	//------------------------------------------------------------- 
+    assign input1  = 16'b0000000011110111; // 247
+	assign input2  = 16'b0000000010000100; // 132
 	
-	
+	// Add
 	assign opcode = 4'b0001;
 	#10;
 	$display("[Input A:%b, Input B:%b] [ADD:%b] [Output: %b, Error: %b]",input1,input2,opcode,result,error);
 	$display();
-	#10;
   	
+	// Sub
    	assign opcode=4'b0010;
 	#10;
 	$display("[Input A:%b, Input B:%b] [SUB:%b] [Output: %b, Error: %b]",input1,input2,opcode,result,error);
 	$display();
-	#10;
 
+	// Mult	
 	assign opcode=4'b0011;
 	#10;
 	$display("[Input A:%b, Input B:%b] [MUL:%b] [Output: %b, Error: %b]",input1,input2,opcode,result,error);
 	$display();
-	#10;
 
+	assign input2  = 16'b0000000000000000; // 0
+	// Div
 	assign opcode=4'b0100;
     #10;
 	$display("[Input A:%b, Input B:%b] [DIV:%b] [Output: %b, Error: %b]",input1,input2,opcode,result,error);
 	$display();
-	#10;
 
+	assign input2  = 16'b0000000010000100; // 132
+	// Mod
 	assign opcode=4'b0101;
     #10;
 	$display("[Input A:%b, Input B:%b] [MOD:%b] [Output: %b, Error: %b]",input1,input2,opcode,result,error);
 	$display();
-	#10;
 
+	$display("------------------------------------------------------------------------------------------------------------------------------");
+	$display();	
+
+	//------------------------------------------------------------- 
+    assign input1  = 16'b0111110100000000; // 32000
+	assign input2  = 16'b0011111010000000; // 16000
+	
+	// Add
+	assign opcode = 4'b0001;
+	#10;
+	$display("[Input A:%b, Input B:%b] [ADD:%b] [Output: %b, Error: %b]",input1,input2,opcode,result,error);
+	$display();
+  	
+	// Sub
+   	assign opcode=4'b0010;
+	#10;
+	$display("[Input A:%b, Input B:%b] [SUB:%b] [Output: %b, Error: %b]",input1,input2,opcode,result,error);
+	$display();
+
+	// Mult	
+	assign opcode=4'b0011;
+	#10;
+	$display("[Input A:%b, Input B:%b] [MUL:%b] [Output: %b, Error: %b]",input1,input2,opcode,result,error);
+	$display();
+
+	// Div
+	assign opcode=4'b0100;
+    #10;
+	$display("[Input A:%b, Input B:%b] [DIV:%b] [Output: %b, Error: %b]",input1,input2,opcode,result,error);
+	$display();
+
+	assign input2  = 16'b0000000000000000; // 0
+	// Mod
+	assign opcode=4'b0101;
+    #10;
+	$display("[Input A:%b, Input B:%b] [MOD:%b] [Output: %b, Error: %b]",input1,input2,opcode,result,error);
+	$display();
+
+	$display("------------------------------------------------------------------------------------------------------------------------------");
 	
 	#60; 
 	$finish;
   end  
- 
 
- 
 endmodule  
