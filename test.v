@@ -1,6 +1,6 @@
-//=============================================
+//========================================================================================
 // Half Adder
-//=============================================
+//========================================================================================
 module HalfAdder(A,B,carry,sum);
 	input A;
 	input B;
@@ -16,11 +16,11 @@ module HalfAdder(A,B,carry,sum);
 	  end
 //---------------------------------------------
 endmodule
+//========================================================================================
 
-
-//=============================================
+//========================================================================================
 // Full Adder
-//=============================================
+//========================================================================================
 module FullAdder(A,B,C,carry,sum);
 	input A;
 	input B;
@@ -48,7 +48,9 @@ module FullAdder(A,B,C,carry,sum);
 //---------------------------------------------
 	
 endmodule
+//========================================================================================
 
+//========================================================================================
 module AddSub(inputA,inputB,mode,sum,carry,overflow);
     input [15:0] inputA;
     input [15:0] inputB;
@@ -147,8 +149,9 @@ module AddSub(inputA,inputB,mode,sum,carry,overflow);
     assign overflow=c32^c31;
  
 endmodule
+//========================================================================================
 
-
+//========================================================================================
 //Multiply
 module Mult(inputA, inputB, product);
     input [15:0] inputA;
@@ -479,7 +482,7 @@ module Mult(inputA, inputB, product);
 
 
 endmodule
-
+//========================================================================================
 
 //Division
 module Division(inputA,inputB,quotient,divBy0);
@@ -503,7 +506,9 @@ module Division(inputA,inputB,quotient,divBy0);
         end
 
 endmodule
+//========================================================================================
 
+//========================================================================================
 //Modulus Division
 module Modulo(inputA,inputB,remainder,modBy0);
 
@@ -526,7 +531,9 @@ module Modulo(inputA,inputB,remainder,modBy0);
           end
 
 endmodule
+//========================================================================================
 
+//========================================================================================
 module Dec4x16(binary,onehot);
 	input [3:0] binary;
 	output [15:0]onehot;
@@ -549,7 +556,9 @@ module Dec4x16(binary,onehot);
 	assign onehot[15]= binary[3]& binary[2]& binary[1]& binary[0];
 	
 endmodule
+//========================================================================================
 
+//========================================================================================
 module Mux16x4b(channels, select, b);
 	input [15:0][31:0] channels;
 	input      [15:0] select;
@@ -576,8 +585,9 @@ module Mux16x4b(channels, select, b);
 				({32{select[ 0]}} & channels[ 0]) ;
 
 endmodule
+//========================================================================================
 
-
+//========================================================================================
 module BreadBoard(input1,input2,opcode,result,error);
 	input [15:0]input1;
 	input [15:0]input2;
@@ -652,8 +662,9 @@ module BreadBoard(input1,input2,opcode,result,error);
 	end
 
 endmodule
+//========================================================================================
 
-
+//========================================================================================
 module TestBench();
  
   reg [15:0] input1;
@@ -664,21 +675,21 @@ module TestBench();
   BreadBoard BB8(input1,input2,opcode,result,error);
   
   initial begin
-    assign input1  = 16'b0100000000000000;
-	assign input2  = 16'b0000000000000010;
+    assign input1  = 16'b1111111111111111;
+	assign input2  = 16'b1111111111111111;
 	//Answer =    		10101100010001010
 	
 	
 	assign opcode = 4'b0001;
 	#10;
 	$display("[Input A:%b, Input B:%b] [ADD:%b] [Output: %b, Error: %b]",input1,input2,opcode,result,error);
-	$display("%b", !opcode[0]);
+	$display();
 	#10;
   	
    	assign opcode=4'b0010;
 	#10;
 	$display("[Input A:%b, Input B:%b] [SUB:%b] [Output: %b, Error: %b]",input1,input2,opcode,result,error);
-	$display("%b", !opcode[0]);
+	$display();
 	#10;
 
 	assign opcode=4'b0011;
