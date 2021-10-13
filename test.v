@@ -150,7 +150,6 @@ endmodule
 
 
 //Multiply
-//Notes for continuation: Need to implement half/full adders I believe so that we can add these numbers dawg. 16 numbers at the most?
 module Mult(inputA, inputB, product);
     input [15:0] inputA;
     input [15:0] inputB;
@@ -194,7 +193,7 @@ module Mult(inputA, inputB, product);
     wire [31:0] P;
     wire d0,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20,d21,d22,d23,d24,d25,d26,d27,d28,d29,d30,d31,d32,d33,d34,d35,d36,d37,d38,d39,d40,d41,d42,d43,d44,d45,d46,d47,d48,d49,d50,d51,d52,d53,d54,d55,d56,d57,d58,d59,d60,
     d61,d62,d63,d64,d65,d66,d67,d68,d69,d70,d71,d72,d73,d74,d75,d76,d77,d78,d79,d80,d81,d82,d83,d84,d85,d86,d87,d88,d89,d90,d91,d92,d93,d94,d95,d96,d97,d98,d99,d100,d101,d102,d103,d104,d105,d106,d107,d108,d109,d110,d111,d112,d113,d114,d115,d116,d117,d118,d119,d120,
-	d121,d122,d123,d124,d125,d126,d127,d128,d129,d130,d131,d132,d133,d134,d135,d136,d137,d138,d139,d140,d141,d142,d143,d144,d145,d1146,d147,d148,d149,d150,d151,d152,d153,d154,d155,d156,d157,d158,d159,d160,d161,d162,d163,d164,d165,d166,d167,d168,d169,d170,
+	d121,d122,d123,d124,d125,d126,d127,d128,d129,d130,d131,d132,d133,d134,d135,d136,d137,d138,d139,d140,d141,d142,d143,d144,d145,d1146,d147,d148,d149,d150,d151,d152,d153,d154,d155,d156,d157,d158,d159,d160,d161,d162,d163,d164,d165,d166,d167,d168,d169,d170;
 
     wire c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28,c29,c30,c31,c32,c33,c34,c35,c36,c37,c38,c39,c40,c41,c42,c43,c44,c45,c46,c47,c48,c49,c50,c51,c52,c53,c54,c55,c56,c57,c58,c59,c60,
     c61,c62,c63,c64,c65,c66,c67,c68,c69,c70,c71,c72,c73,c74,c75,c76,c77,c78,c79,c80,c81,c82,c83,c84,c85,c86,c87,c88,c89,c90,c91,c92,c93,c94,c95,c96,c97,c98,c99,c100,c101,c102,c103,c104,c105,c106,c107,c108,c109,c110,c111,c112,c113,c114,c115,c116,c117,c118,c119,c120,
@@ -362,13 +361,13 @@ module Mult(inputA, inputB, product);
 	FullAdder FA17_5(d122,p11[6],p12[5],c140,d123);
 	FullAdder FA17_6(d123,p13[4],p14[3],c141,d124);
 	FullAdder FA17_7(d124,p15[2],c121,c142,d125);
-	FullAdder FA17_8(d125,c123,c124,c143,d126);
-	FullAdder FA17_9(d126,c125,c126,c144,d127);
-	FullAdder FA17_10(d127,c127,c128,c145,d128);
-	FullAdder FA17_11(d128,c129,c130,c146,d129);
-	FullAdder FA17_12(d129,c131,c132,c147,d130);
-	FullAdder FA17_13(d130,c133,c134,c148,d131);
-	FullAdder FA17_14(d131,c135,1'b0,c149,P[17]);
+	FullAdder FA17_8(d125,c122,c123,c143,d126);
+	FullAdder FA17_9(d126,c124,c125,c144,d127);
+	FullAdder FA17_10(d127,c126,c127,c145,d128);
+	FullAdder FA17_11(d128,c128,c129,c146,d129);
+	FullAdder FA17_12(d129,c130,c131,c147,d130);
+	FullAdder FA17_13(d130,c132,c133,c148,d131);
+	FullAdder FA17_14(d131,c134,c135,c149,P[17]);
 
 	FullAdder FA18_1(p3[15],p4[14],p5[13],c150,d132);
 	FullAdder FA18_2(d132,p6[12],p7[11],c151,d133);
@@ -476,17 +475,11 @@ module Mult(inputA, inputB, product);
 
 	assign P[31] = c240;
 
-
-
-
-
-
-
-
     assign product[31:0] = P[31:0];
 
 
 endmodule
+
 
 //Division
 module Division(inputA,inputB,quotient,divBy0);
